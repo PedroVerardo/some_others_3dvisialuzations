@@ -1,6 +1,10 @@
 #ifndef ERROR_H
 #define ERROR_H
 
-void checkError(const char* msg);
+#include <string>
 
+class Error {
+public:
+	static void Check(const std::string& msg);
+};
 #endif

@@ -19,19 +19,36 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="appearance.h" />
+    <ClInclude Include="camera.h" />
+    <ClInclude Include="disk.h" />
+    <ClInclude Include="engine.h" />
+    <ClInclude Include="error.h" />
+    <ClInclude Include="node.h" />
+    <ClInclude Include="scene.h" />
+    <ClInclude Include="shader.h" />
+    <ClInclude Include="shape.h" />
+    <ClInclude Include="state.h" />
+    <ClInclude Include="transform.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="camera.cpp" />
+    <ClCompile Include="color.cpp" />
+    <ClCompile Include="color.h" />
+    <ClCompile Include="disk.cpp" />
+    <ClCompile Include="error.cpp" />
+    <ClCompile Include="main_crono.cpp" />
+    <ClCompile Include="node.cpp" />
+    <ClCompile Include="scene.cpp" />
+    <ClCompile Include="shader.cpp" />
+    <ClCompile Include="state.cpp" />
+    <ClCompile Include="transform.cpp" />
+    <ClCompile Include="triangle.cpp" />
+    <ClCompile Include="triangle.h" />
+  </ItemGroup>
+  <ItemGroup>
     <None Include="fragment.glsl" />
     <None Include="vertex.glsl" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="buffer.cpp" />
-    <ClCompile Include="error.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="shader.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="buffer.h" />
-    <ClInclude Include="error.h" />
-    <ClInclude Include="shader.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

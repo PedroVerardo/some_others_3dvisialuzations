@@ -1,36 +1,24 @@
-#ifdef _WIN32
-#include <windows.h>
-
-// Choose glad or glew to initialize OpenGL context on Windows
-#include <gl/glew.h>
-
-#include <GLFW/glfw3.h>
-
-#else
-
-#include <OpenGL/gl3.h>
-#include <GLFW/glfw3.h>
-
-#endif
-
 #include "error.h"
+#ifdef _WIN32
+#include <GL/glew.h>
+#else
+#include <OpenGL/gl3.h>
+#endif
+#include <iostream>
+#include <cstdlib>
 
-#include <stdio.h>
-#include <stdlib.h>
-
-void checkError(const char* msg)
+void Error::Check(const std::string& msg)
 {
     GLenum err = glGetError();
     if (err == GL_NO_ERROR)
         return;
     switch (err) {
-    case GL_INVALID_ENUM: fprintf(stderr, "GL error: GL_INVALID_ENUM (%s)\n", msg ? msg : ""); break;
-    case GL_INVALID_VALUE: fprintf(stderr, "GL error: GL_INVALID_VALUE (%s)\n", msg ? msg : ""); break;
-    case GL_INVALID_OPERATION: fprintf(stderr, "GL error: GL_INVALID_OPERATION (%s)\n", msg ? msg : ""); break;
-    case GL_OUT_OF_MEMORY: fprintf(stderr, "GL error: GL_OUT_OF_MEMORY (%s)\n", msg ? msg : ""); break;
-    case GL_INVALID_FRAMEBUFFER_OPERATION: fprintf(stderr, "GL error: GL_INVALID_FRAMEBUFFER_OPERATION (%s)\n", msg ? msg : ""); break;
-    default: fprintf(stderr, "GL error: unknown error (%s)\n", msg ? msg : ""); break;
+    case GL_INVALID_ENUM: std::cerr << "GL error: GL_INVALID_ENUM (" << msg << ")\n"; break;
+    case GL_INVALID_VALUE: std::cerr << "GL error: GL_INVALID_VALUE (" << msg << ")\n"; break;
+    case GL_INVALID_OPERATION: std::cerr << "GL error: GL_INVALID_OPERATION (" << msg << ")\n"; break;
+    case GL_OUT_OF_MEMORY: std::cerr << "GL error: GL_OUT_OF_MEMORY (" << msg << ")\n"; break;
+    case GL_INVALID_FRAMEBUFFER_OPERATION: std::cerr << "GL error: GL_INVALID_FRAMEBUFFER_OPERATION (" << msg << ")\n"; break;
+    default: std::cerr << "GL error: unknown error (" << msg << ")\n"; break;
     }
     exit(1);
 }
-

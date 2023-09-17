@@ -1,44 +1,33 @@
-
 #include "shader.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <stdarg.h>
+#include "state.h"
 
-static char* Concatenate(char* str, const char* append)
+#ifdef _WIN32
+#include <GL/glew.h>
+#else
+#include <OpenGL/gl3.h>
+#endif
+#include "glm/gtc/type_ptr.hpp"
+
+#include <fstream>
+#include <iostream>
+#include <sstream> 
+#include <cstdlib>
+
+// read file content to a string
+static std::string ReadFile(const std::string& filename)
 {
-    if (str) {
-        str = (char*)realloc(str, strlen(str) + strlen(append) + 1);
-    }
-    else {
-        str = (char*)malloc(strlen(append) + 1);
-        if (str) *str = 0;
-    }
-    if (!str) {
-        fprintf(stderr, "Not enough memory to store shader source\n");
+    std::ifstream fp;
+    fp.open(filename);
+    if (!fp.is_open()) {
+        std::cerr << "Could not open file: " << filename << std::endl;
         exit(1);
     }
-    strcat(str, append);
-
-    return str;
+    std::stringstream strStream;
+    strStream << fp.rdbuf(); //read the file
+    return strStream.str(); //str holds the content of the file
 }
 
-static GLchar* ReadFile(const char* filename)
-{
-    char* code = 0;
-    FILE* fp = fopen(filename, "r");
-    if (!fp) {
-        fprintf(stderr, "Could not open shader file: %s\n", filename);
-        exit(1);
-    }
-    char line[BUFSIZ];
-    while (fgets(line, BUFSIZ, fp))
-        code = Concatenate(code, line);
-    fclose(fp);
-    return code;
-}
-
-static void CompileShader(GLuint id)
+static void CompileShader(const std::string& filename, GLuint id)
 {
     GLint status;
     glCompileShader(id);
@@ -46,63 +35,172 @@ static void CompileShader(GLuint id)
     if (!status) {
         GLint len;
         glGetShaderiv(id, GL_INFO_LOG_LENGTH, &len);
-        char* message = (char*)malloc((len + 1) * sizeof(char));
+        char* message = new char[len];
         glGetShaderInfoLog(id, len, 0, message);
-        fprintf(stderr, "%s\n", message);
-        free(message);
+        std::cerr << filename << ":" << std::endl << message << std::endl;
+        delete[] message;
         exit(1);
     }
 }
 
-static void LinkProgram(GLuint id)
-{
-    GLint status;
-    glLinkProgram(id);
-    glGetProgramiv(id, GL_LINK_STATUS, &status);
-    if (!status) {
-        GLint len;
-        glGetProgramiv(id, GL_INFO_LOG_LENGTH, &len);
-        char* message = (char*)malloc((len + 1) * sizeof(char));
-        glGetProgramInfoLog(id, len, 0, message);
-        fprintf(stderr, "%s\n", message);
-        free(message);
-        exit(1);
-    }
-}
-
-GLuint CreateShader(GLenum shadertype, const char* filename)
+static GLuint CreateShader(GLenum shadertype, const std::string& filename)
 {
     GLuint id = glCreateShader(shadertype);
     if (id == 0) {
-        fprintf(stderr, "Could not create shader object");
+        std::cerr << "Could not create shader object";
         exit(1);
     }
-    char* source = ReadFile(filename);
-    glShaderSource(id, 1, &source, 0);
-    CompileShader(id);
-    free(source);
+    std::string source = ReadFile(filename);
+    const char* csource = source.c_str();
+    glShaderSource(id, 1, &csource, 0);
+    CompileShader(filename, id);
     return id;
 }
 
-// Create program. The end of the list of shader id must be indicated by zero
-GLuint CreateProgram(int sid, ...)
+////////////////////////////
+
+ShaderPtr Shader::Make()
 {
-    GLuint pid = glCreateProgram();
-    if (pid == 0) {
-        fprintf(stderr, "Could not create program object");
+    return ShaderPtr(new Shader());
+}
+
+Shader::Shader()
+    : m_texunit(0)
+{
+    m_pid = glCreateProgram();
+    if (m_pid == 0) {
+        std::cerr << "Could not create shader object";
         exit(1);
     }
-    va_list ap;
-    va_start(ap, sid);
-    while (sid != 0) {
-        glAttachShader(pid, sid);
-        sid = va_arg(ap, int);
+}
+
+Shader::~Shader()
+{
+}
+
+void Shader::AttachVertexShader(const std::string& filename)
+{
+    GLuint sid = CreateShader(GL_VERTEX_SHADER, filename);
+    glAttachShader(m_pid, sid);
+}
+void Shader::AttachFragmentShader(const std::string& filename)
+{
+    GLuint sid = CreateShader(GL_FRAGMENT_SHADER, filename);
+    glAttachShader(m_pid, sid);
+}
+void Shader::AttachGeometryShader(const std::string& filename)
+{
+    GLuint sid = CreateShader(GL_GEOMETRY_SHADER, filename);
+    glAttachShader(m_pid, sid);
+}
+void Shader::AttachTesselationShader(const std::string& control, const std::string& evaluation)
+{
+    GLuint cid = CreateShader(GL_TESS_CONTROL_SHADER, control);
+    glAttachShader(m_pid, cid);
+    GLuint eid = CreateShader(GL_TESS_EVALUATION_SHADER, evaluation);
+    glAttachShader(m_pid, eid);
+}
+
+void Shader::Link()
+{
+    GLint status;
+    glLinkProgram(m_pid);
+    glGetProgramiv(m_pid, GL_LINK_STATUS, &status);
+    if (!status) {
+        GLint len;
+        glGetProgramiv(m_pid, GL_INFO_LOG_LENGTH, &len);
+        char* message = new char[len];
+        glGetProgramInfoLog(m_pid, len, 0, message);
+        std::cerr << message << std::endl;
+        delete[] message;
+        exit(1);
     }
-    va_end(ap);
-    LinkProgram(pid);
-    return pid;
+}
+
+void Shader::UseProgram() const
+{
+    glUseProgram(m_pid);
 }
 
 
+void Shader::SetUniform(const std::string& varname, int x) const
+{
+    GLint loc = glGetUniformLocation(m_pid, varname.c_str());
+    glUniform1i(loc, x);
+}
 
+void Shader::SetUniform(const std::string& varname, float x) const
+{
+    GLint loc = glGetUniformLocation(m_pid, varname.c_str());
+    glUniform1f(loc, x);
+}
 
+void Shader::SetUniform(const std::string& varname, const glm::vec3& vet) const
+{
+    GLint loc = glGetUniformLocation(m_pid, varname.c_str());
+    glUniform3fv(loc, 1, glm::value_ptr(vet));
+}
+
+void Shader::SetUniform(const std::string& varname, const glm::vec4& vet) const
+{
+    GLint loc = glGetUniformLocation(m_pid, varname.c_str());
+    glUniform4fv(loc, 1, glm::value_ptr(vet));
+}
+
+void Shader::SetUniform(const std::string& varname, const glm::mat4& mat) const
+{
+    GLint loc = glGetUniformLocation(m_pid, varname.c_str());
+    glUniformMatrix4fv(loc, 1, GL_FALSE, glm::value_ptr(mat));
+}
+
+void Shader::SetUniform(const std::string& varname, const std::vector<int>& x) const
+{
+    GLint loc = glGetUniformLocation(m_pid, varname.c_str());
+    glUniform1iv(loc, x.size(), x.data());
+}
+
+void Shader::SetUniform(const std::string& varname, const std::vector<float>& x) const
+{
+    GLint loc = glGetUniformLocation(m_pid, varname.c_str());
+    glUniform1fv(loc, x.size(), x.data());
+}
+
+void Shader::SetUniform(const std::string& varname, const std::vector<glm::vec3>& vet) const
+{
+    GLint loc = glGetUniformLocation(m_pid, varname.c_str());
+    glUniform3fv(loc, vet.size(), (float*)vet.data());
+}
+
+void Shader::SetUniform(const std::string& varname, const std::vector<glm::vec4>& vet) const
+{
+    GLint loc = glGetUniformLocation(m_pid, varname.c_str());
+    glUniform4fv(loc, vet.size(), (float*)vet.data());
+}
+
+void Shader::SetUniform(const std::string& varname, const std::vector<glm::mat4>& mat) const
+{
+    GLint loc = glGetUniformLocation(m_pid, varname.c_str());
+    glUniformMatrix4fv(loc, mat.size(), GL_FALSE, (float*)mat.data());
+}
+
+void Shader::ActiveTexture(const std::string& varname)
+{
+    SetUniform(varname, m_texunit);
+    glActiveTexture(GL_TEXTURE0 + m_texunit);
+    m_texunit++;
+}
+
+void Shader::DeactiveTexture()
+{
+    m_texunit--;
+}
+
+void Shader::Load(StatePtr st)
+{
+    st->PushShader(shared_from_this());
+}
+
+void Shader::Unload(StatePtr st)
+{
+    st->PopShader();
+}

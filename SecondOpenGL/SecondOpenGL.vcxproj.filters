@@ -17,36 +17,87 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <None Include="fragment.glsl">
-      <Filter>shaders</Filter>
-    </None>
-    <None Include="vertex.glsl">
-      <Filter>shaders</Filter>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="main.cpp">
-      <Filter>Arquivos de Recurso</Filter>
-    </ClCompile>
-    <ClCompile Include="error.cpp">
-      <Filter>Arquivos de Recurso</Filter>
-    </ClCompile>
-    <ClCompile Include="shader.cpp">
-      <Filter>Arquivos de Recurso</Filter>
-    </ClCompile>
-    <ClCompile Include="buffer.cpp">
-      <Filter>Arquivos de Recurso</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="shader.h">
+    <ClInclude Include="appearance.h">
+      <Filter>Arquivos de Cabeçalho</Filter>
+    </ClInclude>
+    <ClInclude Include="camera.h">
+      <Filter>Arquivos de Cabeçalho</Filter>
+    </ClInclude>
+    <ClInclude Include="engine.h">
       <Filter>Arquivos de Cabeçalho</Filter>
     </ClInclude>
     <ClInclude Include="error.h">
       <Filter>Arquivos de Cabeçalho</Filter>
     </ClInclude>
-    <ClInclude Include="buffer.h">
+    <ClInclude Include="shader.h">
       <Filter>Arquivos de Cabeçalho</Filter>
     </ClInclude>
+    <ClInclude Include="shape.h">
+      <Filter>Arquivos de Cabeçalho</Filter>
+    </ClInclude>
+    <ClInclude Include="state.h">
+      <Filter>Arquivos de Cabeçalho</Filter>
+    </ClInclude>
+    <ClInclude Include="transform.h">
+      <Filter>Arquivos de Cabeçalho</Filter>
+    </ClInclude>
+    <ClInclude Include="node.h">
+      <Filter>Arquivos de Cabeçalho</Filter>
+    </ClInclude>
+    <ClInclude Include="scene.h">
+      <Filter>Arquivos de Cabeçalho</Filter>
+    </ClInclude>
+    <ClInclude Include="disk.h">
+      <Filter>Arquivos de Cabeçalho</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="color.h">
+      <Filter>Arquivos de Cabeçalho</Filter>
+    </ClCompile>
+    <ClCompile Include="triangle.h">
+      <Filter>Arquivos de Cabeçalho</Filter>
+    </ClCompile>
+    <ClCompile Include="camera.cpp">
+      <Filter>Arquivos de origem</Filter>
+    </ClCompile>
+    <ClCompile Include="color.cpp">
+      <Filter>Arquivos de origem</Filter>
+    </ClCompile>
+    <ClCompile Include="error.cpp">
+      <Filter>Arquivos de origem</Filter>
+    </ClCompile>
+    <ClCompile Include="main_crono.cpp">
+      <Filter>Arquivos de origem</Filter>
+    </ClCompile>
+    <ClCompile Include="node.cpp">
+      <Filter>Arquivos de origem</Filter>
+    </ClCompile>
+    <ClCompile Include="scene.cpp">
+      <Filter>Arquivos de origem</Filter>
+    </ClCompile>
+    <ClCompile Include="shader.cpp">
+      <Filter>Arquivos de origem</Filter>
+    </ClCompile>
+    <ClCompile Include="state.cpp">
+      <Filter>Arquivos de origem</Filter>
+    </ClCompile>
+    <ClCompile Include="transform.cpp">
+      <Filter>Arquivos de origem</Filter>
+    </ClCompile>
+    <ClCompile Include="triangle.cpp">
+      <Filter>Arquivos de origem</Filter>
+    </ClCompile>
+    <ClCompile Include="disk.cpp">
+      <Filter>Arquivos de origem</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="fragment.glsl">
+      <Filter>Arquivos de origem</Filter>
+    </None>
+    <None Include="vertex.glsl">
+      <Filter>Arquivos de origem</Filter>
+    </None>
   </ItemGroup>
 </Project>

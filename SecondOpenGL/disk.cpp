@@ -9,7 +9,7 @@
 #endif
 
 #define M_PI 0x3F
-const int definition = 100;
+const int definition = 900;
 
 DiskPtr Disk::Make()
 {
@@ -18,15 +18,26 @@ DiskPtr Disk::Make()
 
 Disk::Disk()
 {
+    std::vector<glm::vec2> texcoord;
+	texcoord.push_back(glm::vec2(0.5f, 0.5f));
+
 	float r = 0.5f;
 	float x = 0.0f;
 	float y = 0.0f;
+	float temp1;
+	float temp2;
 
 	float circleVertices[definition * 2];
 	for (int i = 0; i < definition; ++i) {
 		float dgree = 2.0 * M_PI * float(i) / float(definition);
-		circleVertices[i * 2] = (r * cos(dgree) + x) / 2;
-		circleVertices[i * 2 + 1] = (r * sin(dgree) + y) / 2;
+		temp1 = (r * cos(dgree) + x) / 2;
+		temp2 = (r * sin(dgree) + y) / 2;
+		circleVertices[i * 2] = temp1;
+		circleVertices[i * 2 + 1] = temp2;
+
+		texcoord.push_back(glm::vec2(temp1, temp2));
+		texcoord.push_back(glm::vec2(temp1, temp2));
+		texcoord.push_back(glm::vec2(temp1, temp2));
 	}
 	// create VAO
 	glGenVertexArrays(1, &m_vao);
@@ -38,6 +49,13 @@ Disk::Disk()
 	glBufferData(GL_ARRAY_BUFFER, sizeof(circleVertices), circleVertices, GL_STATIC_DRAW);
 	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, 0);  // coord
 	glEnableVertexAttribArray(0);
+
+	GLuint texId;
+	glGenBuffers(1, &texId);
+	glBindBuffer(GL_ARRAY_BUFFER, texId);
+	glBufferData(GL_ARRAY_BUFFER, texcoord.size() * sizeof(glm::vec2), &texcoord[0], GL_STATIC_DRAW);
+	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, 0);  // texcoord
+	glEnableVertexAttribArray(1);
 }
 
 Disk::~Disk()

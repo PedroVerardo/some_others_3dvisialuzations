@@ -1,7 +1,6 @@
 
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
-
 #include "scene.h"
 #include "state.h"
 #include "camera.h"
@@ -11,6 +10,7 @@
 #include "shader.h"
 #include "disk.h"
 #include "triangle.h"
+#include "texture.h"
 #include <vector>
 #include <iostream>
 #include <memory>
@@ -42,31 +42,40 @@ public:
 static void initialize(void)
 {
     // set background color: white 
-    glClearColor(0.8f, 1.0f, 1.0f, 1.0f);
+    //glClearColor(0.8f, 1.0f, 1.0f, 1.0f);
     // enable depth test 
     glEnable(GL_DEPTH_TEST);
 
     // create objects
-    camera = Camera::Make(0, 10, 0, 10);
+    camera = Camera::Make(-10, 10,-10, 10);
+    auto trf0 = Transform::Make();
+    trf0->Translate(1, 1, -0.9);
+
+    auto back = Node::Make(trf0, { Color::Make(1.0,1.0,1.0,1.0), Texture::PtrMake("face", "C:\\Users\\Pedro\\OneDrive\\Imagens\\8k_stars_milky_way.jpg") }, { Triangle::Make() });
 
     auto trf1 = Transform::Make();
-    trf1->Translate(5, 5, -0.5);
+    trf1->Translate(0, 0, -0.5);
     trf1->Scale(5, 5, 1);
-    auto sun = Node::Make(trf1, {Color::Make(255,255,0) }, { Disk::Make() });
+    auto sun = Node::Make(trf1, { Color::Make(1.0,1.0,1.0,1.0),Texture::PtrMake("face", "C:\\Users\\Pedro\\OneDrive\\Imagens\\2k_sun.jpg")}, {Disk::Make()});
     auto trf2 = Transform::Make();
     trf2->Translate(1, 0, 1);
     auto trf3 = Transform::Make();
     trf3->Scale(0.7, 0.7, 1);
-    auto earth = Node::Make(trf2, { Node::Make(trf3,{Color::Make(0,0,1)},{Disk::Make()}) });
+    auto earth = Node::Make(trf2, { Color::Make(1.0,1.0,1.0,1.0) },{ Node::Make(trf3, { Texture::PtrMake("face", "C:\\Users\\Pedro\\OneDrive\\Imagens\\2k_earth_daymap.jpg") }, { Disk::Make() })
+});
     sun->AddNode(earth);
     auto trf4 = Transform::Make();
     auto trf5 = Transform::Make();
     trf5->Translate(1, 0.5, 0);
     trf4->MultMatrix(trf3->GetMatrix());
     trf4->Scale(0.5, 0.5, 1);
-    auto moon = Node::Make(trf4, {Node::Make(trf5,{Color::Make(128,128,128)},{Disk::Make()})});
+    auto moon = Node::Make(trf4, {Node::Make(trf5, {Texture::PtrMake("face", "C:\\Users\\Pedro\\OneDrive\\Imagens\\8k_moon.jpg")},{Disk::Make()})});
     earth->AddNode(moon);
-
+    auto trf6 = Transform::Make();
+    trf6->Translate(0.4,0.4, 1);
+    trf6->Scale(0.8, 0.8, 1);
+    auto venus = Node::Make(trf6, { { Color::Make(1.0,1.0,1.0,1.0) },  Texture::PtrMake("face", "C:\\Users\\Pedro\\OneDrive\\Imagens\\2k_venus_surface.jpg") }, { Disk::Make() });
+    sun->AddNode(venus);
 
     auto shader = Shader::Make();
     shader->AttachVertexShader("C:\\Users\\Pedro\\source\\repos\\SecondOpenGL\\SecondOpenGL\\vertex.glsl");
@@ -74,12 +83,12 @@ static void initialize(void)
     shader->Link();
 
     // build scene
-
-    auto root = Node::Make(shader, { sun });
+    auto root = Node::Make(shader, { back,sun });
     scene = Scene::Make(root);
     scene->AddEngine(MovePointer::Make(trf1));
     scene->AddEngine(MovePointer::Make(trf3));
     scene->AddEngine(MovePointer::Make(trf4));
+    scene->AddEngine(MovePointer::Make(trf6));
 }
 
 static void display(GLFWwindow* win)

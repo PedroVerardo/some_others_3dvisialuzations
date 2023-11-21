@@ -1,0 +1,26 @@
+#version 460 core
+
+layout(location = 0) in vec4 pos;
+layout(location = 1) in vec3 normal;
+
+uniform vec4 leye;
+uniform mat4 mv;
+uniform mat4 nm;
+uniform mat4 Mvp;
+
+out data
+{
+	vec3 normal;
+	vec3 viewer;
+	vec3 light;
+}f;
+
+
+void main(void)
+{
+	f.viewer = vec3(leye-pos);
+	f.light = vec3(-0.30f, 1.00f,0.55f);
+	f.normal = normalize(vec3(vec4(normal,0.0f)));
+
+	gl_Position = Mvp * pos;
+}

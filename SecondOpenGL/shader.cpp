@@ -2,7 +2,7 @@
 #include "state.h"
 
 #ifdef _WIN32
-#include <GL/glew.h>
+#include <gl/glew.h>
 #else
 #include <OpenGL/gl3.h>
 #endif
@@ -59,13 +59,19 @@ static GLuint CreateShader(GLenum shadertype, const std::string& filename)
 
 ////////////////////////////
 
-ShaderPtr Shader::Make()
+ShaderPtr Shader::Make(LightPtr light, const std::string& space)
 {
-    return ShaderPtr(new Shader());
+    if (space != "camera" && space != "world") {
+        std::cerr << "Lighting space should be 'camera' or 'world'" << std::endl;
+        exit(1);
+    }
+    return ShaderPtr(new Shader(light, space));
 }
 
-Shader::Shader()
-    : m_texunit(0)
+Shader::Shader(LightPtr light, const std::string& space)
+    : m_texunit(0),
+    m_light(light),
+    m_space(space)
 {
     m_pid = glCreateProgram();
     if (m_pid == 0) {
@@ -115,6 +121,16 @@ void Shader::Link()
         delete[] message;
         exit(1);
     }
+}
+
+LightPtr Shader::GetLight() const
+{
+    return m_light;
+}
+
+const std::string& Shader::GetLightingSpace() const
+{
+    return m_space;
 }
 
 void Shader::UseProgram() const
@@ -198,6 +214,8 @@ void Shader::DeactiveTexture()
 void Shader::Load(StatePtr st)
 {
     st->PushShader(shared_from_this());
+    if (m_light)
+        m_light->Load(st);
 }
 
 void Shader::Unload(StatePtr st)

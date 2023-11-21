@@ -21,31 +21,64 @@
   <ItemGroup>
     <ClInclude Include="appearance.h" />
     <ClInclude Include="camera.h" />
+    <ClInclude Include="camera2d.h" />
+    <ClInclude Include="camera3d.h" />
+    <ClInclude Include="clipplane.h" />
+    <ClInclude Include="cube.h" />
     <ClInclude Include="disk.h" />
     <ClInclude Include="engine.h" />
     <ClInclude Include="error.h" />
+    <ClInclude Include="framebuffer.h" />
+    <ClInclude Include="grid.h" />
     <ClInclude Include="image.h" />
+    <ClInclude Include="light.h" />
+    <ClInclude Include="material.h" />
+    <ClInclude Include="mesh.h" />
     <ClInclude Include="node.h" />
+    <ClInclude Include="polyoffset.h" />
+    <ClInclude Include="quad.h" />
     <ClInclude Include="scene.h" />
     <ClInclude Include="shader.h" />
     <ClInclude Include="shape.h" />
+    <ClInclude Include="skybox.h" />
+    <ClInclude Include="sphere.h" />
     <ClInclude Include="state.h" />
     <ClInclude Include="stb_image.h" />
+    <ClInclude Include="texcube.h" />
     <ClInclude Include="texture.h" />
     <ClInclude Include="transform.h" />
+    <ClInclude Include="variable.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="arcball.cpp" />
+    <ClCompile Include="arcball.h" />
     <ClCompile Include="camera.cpp" />
+    <ClCompile Include="camera2d.cpp" />
+    <ClCompile Include="camera3d.cpp" />
+    <ClCompile Include="clipplane.cpp" />
     <ClCompile Include="color.cpp" />
     <ClCompile Include="color.h" />
+    <ClCompile Include="cube.cpp" />
     <ClCompile Include="disk.cpp" />
     <ClCompile Include="error.cpp" />
+    <ClCompile Include="framebuffer.cpp" />
+    <ClCompile Include="grid.cpp" />
     <ClCompile Include="image.cpp" />
-    <ClCompile Include="main_crono.cpp" />
+    <ClCompile Include="light.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="material.cpp" />
+    <ClCompile Include="mesh.cpp" />
     <ClCompile Include="node.cpp" />
+    <ClCompile Include="polyoffset.cpp" />
+    <ClCompile Include="quad.cpp" />
     <ClCompile Include="scene.cpp" />
     <ClCompile Include="shader.cpp" />
+    <ClCompile Include="skybox.cpp" />
+    <ClCompile Include="sphere.cpp" />
     <ClCompile Include="state.cpp" />
+    <ClCompile Include="texcube.cpp" />
+    <ClCompile Include="texdepth.cpp" />
+    <ClCompile Include="texdepth.h" />
     <ClCompile Include="texture.cpp" />
     <ClCompile Include="transform.cpp" />
     <ClCompile Include="triangle.cpp" />
@@ -120,6 +153,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>C:\CplusplusLibarys\GLFW\lib-vc2022;C:\CplusplusLibarys\GLEW\lib\Release\Win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>opengl32.lib;glew32.lib;glfw3.lib;user32.lib;kernel32.lib;gdi32.lib;shell32.lib;ole32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <IgnoreSpecificDefaultLibraries>opengl32.lib;glew32.lib;glfw3.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -139,6 +173,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>C:\CplusplusLibarys\GLFW\lib-vc2022;C:\CplusplusLibarys\GLEW\lib\Release\Win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>opengl32.lib;glew32.lib;glfw3.lib;user32.lib;kernel32.lib;gdi32.lib;shell32.lib;ole32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <IgnoreSpecificDefaultLibraries>opengl32.lib;glew32.lib;glfw3.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -154,6 +189,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>C:\CplusplusLibarys\GLFW\lib-vc2022;C:\CplusplusLibarys\GLEW\lib\Release\Win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>opengl32.lib;glew32.lib;glfw3.lib;user32.lib;kernel32.lib;gdi32.lib;shell32.lib;ole32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <IgnoreSpecificDefaultLibraries>opengl32.lib;glew32.lib;glfw3.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -173,6 +209,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>C:\CplusplusLibarys\GLFW\lib-vc2022;C:\CplusplusLibarys\GLEW\lib\Release\Win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>opengl32.lib;glew32.lib;glfw3.lib;user32.lib;kernel32.lib;gdi32.lib;shell32.lib;ole32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <IgnoreSpecificDefaultLibraries>opengl32.lib;glew32.lib;glfw3.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

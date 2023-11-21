@@ -1,0 +1,22 @@
+#version 410
+uniform vec3 posLight;
+uniform mat4 mvpMatrix;
+
+layout(location = 0) in vec4 posVertex;
+layout(location = 1) in vec3 normalVertex;
+layout(location = 2) in vec2 texCoord;
+layout(location = 0) in vec3 tangentVertex;
+
+out vec3 dirLight;
+out vec2 mapCoord;
+
+void main (void)
+{
+gl_Position = mvpMatrix * posVertex;
+mapCoord = texCoord;
+// compute objecttotexture space matrix
+vec3 binormal = cross(normalVertex, tangentVertex);
+mat3 rotation = transpose(mat3(tangentVertex,binormal,normalVertex));
+// compute light direction
+dirLight = rotation * (posVertex);
+}

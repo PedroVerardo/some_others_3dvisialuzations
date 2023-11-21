@@ -2,7 +2,7 @@
 #include "state.h"
 
 #ifdef _WIN32
-#include <GL/glew.h>
+#include <gl/glew.h>
 #else
 #include <OpenGL/gl3.h>
 #endif

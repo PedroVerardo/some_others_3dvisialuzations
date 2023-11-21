@@ -1,0 +1,32 @@
+uniform sampler2D normalMap;
+
+uniform vec4 LMa; // lightmaterial ambient
+uniform vec4 LMd; // lightmaterial diffuse
+uniform vec4 LMs; // lightmaterial specular
+uniform float shi; // shininess
+
+in vec3 dirLight;
+in vec3 halfVector;
+in vec2 mapCoord;
+
+vec3 expand (vec3 v)
+{
+  return (v0.5) * 2;
+}
+void main (void)
+{
+  vec3 light = normalize(dirLight);
+  vec3 normal = expand(texture(normalMap,mapCoord));
+
+  // compute lighting
+  float NdotL = dot(normal,light);
+  float diff = max(NdotL,0);
+  float spec = 0.0;
+
+  if (NdotL > 0) {
+    vec3 half = normalize(halfVector);
+    spec = pow(max(dot(normal,half),0),shi);
+  }
+
+  gl FragColor = LMa + LMd*diff + LMs*sepc;
+}

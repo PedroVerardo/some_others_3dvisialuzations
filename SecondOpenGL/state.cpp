@@ -1,12 +1,13 @@
 #include "state.h"
 #include "shader.h"
 #include "camera.h"
+#include "light.h"
 #include "shader.h"
 
 #include "glm/gtc/matrix_transform.hpp"
 
 #ifdef _WIN32
-#include <GL/glew.h>
+#include <gl/glew.h>
 #else
 #include <OpenGL/gl3.h>
 #endif
@@ -92,5 +93,14 @@ void State::LoadMatrices()
     glm::mat4 mvp = m_camera->GetProjMatrix() *
         m_camera->GetViewMatrix() *
         GetCurrentMatrix();
+    glm::mat4 mv = GetCurrentMatrix();      // to global space
+    if (shd->GetLightingSpace() == "camera") {
+        mv = m_camera->GetViewMatrix() * mv;  // to camera space
+    }
+    glm::mat4 mn = glm::transpose(glm::inverse(mv));
     shd->SetUniform("Mvp", mvp);
+    shd->SetUniform("Mv", mv);
+    shd->SetUniform("Mn", mn);
+    // load camera
+    m_camera->Load(shared_from_this());
 }

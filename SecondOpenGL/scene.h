@@ -8,7 +8,6 @@ using ScenePtr = std::shared_ptr<Scene>;
 #include "node.h"
 #include "engine.h"
 #include "state.h"
-#include <vector>
 
 class Scene : public Node
 {

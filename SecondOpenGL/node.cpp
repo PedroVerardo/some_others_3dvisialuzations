@@ -6,7 +6,7 @@
 #include "error.h"
 #include "glm/gtc/matrix_transform.hpp"
 #ifdef _WIN32
-#include <GL/glew.h>
+#include <gl/glew.h>
 #else
 #include <OpenGL/gl3.h>
 #endif

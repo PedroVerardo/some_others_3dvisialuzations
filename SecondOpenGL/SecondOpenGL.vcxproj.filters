@@ -59,6 +59,51 @@
     <ClInclude Include="stb_image.h">
       <Filter>Arquivos de Cabeçalho</Filter>
     </ClInclude>
+    <ClInclude Include="camera2d.h">
+      <Filter>Arquivos de Cabeçalho</Filter>
+    </ClInclude>
+    <ClInclude Include="camera3d.h">
+      <Filter>Arquivos de Cabeçalho</Filter>
+    </ClInclude>
+    <ClInclude Include="clipplane.h">
+      <Filter>Arquivos de Cabeçalho</Filter>
+    </ClInclude>
+    <ClInclude Include="cube.h">
+      <Filter>Arquivos de Cabeçalho</Filter>
+    </ClInclude>
+    <ClInclude Include="framebuffer.h">
+      <Filter>Arquivos de Cabeçalho</Filter>
+    </ClInclude>
+    <ClInclude Include="grid.h">
+      <Filter>Arquivos de Cabeçalho</Filter>
+    </ClInclude>
+    <ClInclude Include="light.h">
+      <Filter>Arquivos de Cabeçalho</Filter>
+    </ClInclude>
+    <ClInclude Include="material.h">
+      <Filter>Arquivos de Cabeçalho</Filter>
+    </ClInclude>
+    <ClInclude Include="mesh.h">
+      <Filter>Arquivos de Cabeçalho</Filter>
+    </ClInclude>
+    <ClInclude Include="polyoffset.h">
+      <Filter>Arquivos de Cabeçalho</Filter>
+    </ClInclude>
+    <ClInclude Include="quad.h">
+      <Filter>Arquivos de Cabeçalho</Filter>
+    </ClInclude>
+    <ClInclude Include="skybox.h">
+      <Filter>Arquivos de Cabeçalho</Filter>
+    </ClInclude>
+    <ClInclude Include="sphere.h">
+      <Filter>Arquivos de Cabeçalho</Filter>
+    </ClInclude>
+    <ClInclude Include="texcube.h">
+      <Filter>Arquivos de Cabeçalho</Filter>
+    </ClInclude>
+    <ClInclude Include="variable.h">
+      <Filter>Arquivos de Cabeçalho</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="color.h">
@@ -76,7 +121,7 @@
     <ClCompile Include="error.cpp">
       <Filter>Arquivos de origem</Filter>
     </ClCompile>
-    <ClCompile Include="main_crono.cpp">
+    <ClCompile Include="main.cpp">
       <Filter>Arquivos de origem</Filter>
     </ClCompile>
     <ClCompile Include="node.cpp">
@@ -105,6 +150,60 @@
     </ClCompile>
     <ClCompile Include="image.cpp">
       <Filter>Arquivos de origem</Filter>
+    </ClCompile>
+    <ClCompile Include="arcball.h">
+      <Filter>Arquivos de Cabeçalho</Filter>
+    </ClCompile>
+    <ClCompile Include="arcball.cpp">
+      <Filter>Arquivos de origem</Filter>
+    </ClCompile>
+    <ClCompile Include="camera2d.cpp">
+      <Filter>Arquivos de origem</Filter>
+    </ClCompile>
+    <ClCompile Include="camera3d.cpp">
+      <Filter>Arquivos de origem</Filter>
+    </ClCompile>
+    <ClCompile Include="clipplane.cpp">
+      <Filter>Arquivos de origem</Filter>
+    </ClCompile>
+    <ClCompile Include="cube.cpp">
+      <Filter>Arquivos de origem</Filter>
+    </ClCompile>
+    <ClCompile Include="framebuffer.cpp">
+      <Filter>Arquivos de origem</Filter>
+    </ClCompile>
+    <ClCompile Include="grid.cpp">
+      <Filter>Arquivos de origem</Filter>
+    </ClCompile>
+    <ClCompile Include="light.cpp">
+      <Filter>Arquivos de origem</Filter>
+    </ClCompile>
+    <ClCompile Include="material.cpp">
+      <Filter>Arquivos de origem</Filter>
+    </ClCompile>
+    <ClCompile Include="mesh.cpp">
+      <Filter>Arquivos de origem</Filter>
+    </ClCompile>
+    <ClCompile Include="polyoffset.cpp">
+      <Filter>Arquivos de origem</Filter>
+    </ClCompile>
+    <ClCompile Include="quad.cpp">
+      <Filter>Arquivos de origem</Filter>
+    </ClCompile>
+    <ClCompile Include="skybox.cpp">
+      <Filter>Arquivos de origem</Filter>
+    </ClCompile>
+    <ClCompile Include="sphere.cpp">
+      <Filter>Arquivos de origem</Filter>
+    </ClCompile>
+    <ClCompile Include="texcube.cpp">
+      <Filter>Arquivos de origem</Filter>
+    </ClCompile>
+    <ClCompile Include="texdepth.cpp">
+      <Filter>Arquivos de origem</Filter>
+    </ClCompile>
+    <ClCompile Include="texdepth.h">
+      <Filter>Arquivos de Cabeçalho</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

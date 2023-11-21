@@ -6,12 +6,13 @@ using StatePtr = std::shared_ptr<State>;
 #define STATE_H
 
 #include "camera.h"
+#include "light.h"
 #include "shader.h"
 #include "glm/glm.hpp"
 #include <string>
 #include <vector>
 
-class State {
+class State : public std::enable_shared_from_this<State> {
 	CameraPtr m_camera;
 	std::vector<ShaderPtr> m_shader;
 	std::vector<glm::mat4> m_stack;
